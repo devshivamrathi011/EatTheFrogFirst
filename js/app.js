@@ -5,6 +5,24 @@
   const VIEWS = ["today", "workout", "progress", "guide"];
   const FULL = { Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday", Sun: "Sunday" };
 
+  /* ---------- app lock: nothing below runs (or even loads) until the passcode is entered ---------- */
+  if (window.Auth) await Auth.gate();
+
+  /* ---------- small per-device preferences ---------- */
+  const pref = {
+    get(k, d) { try { const v = localStorage.getItem("routine-" + k); return v === null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("routine-" + k, v); } catch (e) {} },
+  };
+  function applyTheme() {
+    const t = pref.get("theme", "auto"), root = document.documentElement;
+    if (t === "light" || t === "dark") root.dataset.theme = t; else delete root.dataset.theme;
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
+      const dark = t === "dark" || (t === "auto" && (m.getAttribute("media") || "").includes("dark"));
+      m.setAttribute("content", dark ? "#13181C" : "#F6F4EF");
+    });
+  }
+  applyTheme();
+
   /* ---------- load plan data ---------- */
   let PLAN, SESS, FIGS;
   try {
@@ -114,22 +132,36 @@
   const svg = html => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; };
   const buzz = () => { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} };
   let toastT;
-  function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2400); }
+  // with an undo function the toast stays longer and carries an Undo button
+  function toast(msg, undo) {
+    const t = $("toast"); t.replaceChildren(msg);
+    if (undo) t.append(el("button", { type: "button", onclick: () => { clearTimeout(toastT); t.hidden = true; undo(); } }, "Undo"));
+    t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), undo ? 5000 : 2400);
+  }
   const setStatus = s => ($("status").textContent = s);
 
   /* ---------- saving ---------- */
   const dirty = new Set(), timers = {};
   let chain = Promise.resolve();
+  // opts.msg: say what changed and offer Undo. opts.silent: typing, so skip the re-render and batch the save
   function update(date, fn, opts = {}) {
-    const before = doneCount(date);
+    const before = doneCount(date), prev = records[date];
     const r = rec(date); if (!r.mode) r.mode = modeFor(date);
     fn(r); r.v = 2; r.updatedAt = new Date().toISOString();
     records[date] = r; dirty.add(date);
-    clearTimeout(timers[date]); if (store.kind === "local") flush(date); else timers[date] = setTimeout(() => flush(date), 400);
+    clearTimeout(timers[date]); if (store.kind === "local" && !opts.silent) flush(date); else timers[date] = setTimeout(() => flush(date), 400);
     if (!opts.silent) render();
     const after = doneCount(date);
-    if (after === NH && before < NH) toast("All " + NH + " habits done. Great day.");
-    else if (after >= R.goodDay && before < R.goodDay) toast("Good day: " + after + " / " + NH + " habits");
+    let note = opts.msg || "";
+    if (after === NH && before < NH) note += (note ? " · " : "") + "All " + NH + " habits done. Great day.";
+    else if (after >= R.goodDay && before < R.goodDay) note += (note ? " · " : "") + "Good day: " + after + " / " + NH + " habits";
+    if (note) toast(note, opts.msg ? () => undoTo(date, prev) : null);
+  }
+  // put a day back the way it was; stamped as new so it also wins when merged with other devices
+  function undoTo(date, prev) {
+    const r = prev ? JSON.parse(JSON.stringify(prev)) : blank();
+    r.updatedAt = new Date().toISOString();
+    records[date] = r; dirty.add(date); flush(date); render();
   }
   function flush(date) {
     chain = chain.then(async () => {
@@ -151,13 +183,13 @@
   function toggleTask(date, it) {
     buzz();
     const r = rec(date);
-    if (it.kind === "meal") return update(date, x => { x.meals[it.id] = !r.meals[it.id]; });
-    if (it.kind === "session") return update(date, x => { x.sessions[it.id] = !r.sessions[it.id]; });
+    if (it.kind === "meal") return update(date, x => { x.meals[it.id] = !r.meals[it.id]; }, { msg: it.label + (r.meals[it.id] ? " unmarked" : " eaten") });
+    if (it.kind === "session") return update(date, x => { x.sessions[it.id] = !r.sessions[it.id]; }, { msg: it.label + (r.sessions[it.id] ? " unmarked" : " done") });
     if (r.tasks[it.id]) { editing = editing === date + it.id ? null : date + it.id; return render(); }
     let target = date, time = date === todayStr() ? hhmm(new Date()) : it.t;
     // Lights out tapped just after midnight belongs to the night before
     if (it.id === "sleep" && date === todayStr() && nowMin() < 4 * 60) target = ymd(addDays(new Date(), -1));
-    update(target, x => { x.tasks[it.id] = time; });
+    update(target, x => { x.tasks[it.id] = time; }, { msg: it.label + " at " + fmt(time) });
   }
 
   /* ---------- header ---------- */
@@ -171,6 +203,10 @@
     $("modeOffice").setAttribute("aria-pressed", String(mode === "office"));
     const show = tab === "today" || tab === "workout";
     $("days").hidden = !show; $("modeSeg").hidden = !show;
+    $("prevDay").hidden = $("nextDay").hidden = !show;
+    $("dateLabel").parentElement.classList.toggle("has-nav", show);
+    $("nextDay").disabled = selDate >= ymd(addDays(new Date(), 7));
+    $("lockNow").hidden = !(window.Auth && Auth.enabled());
     const box = $("days"); box.replaceChildren();
     const ws = addDays(d, -dow(d));
     for (let i = 0; i < 7; i++) {
@@ -194,7 +230,7 @@
     const inp = el("input", { type: "time", value: r.tasks[it.id], "aria-label": "Time for " + it.label });
     return el("div", { class: "editor" }, el("span", {}, "Done at"), inp,
       el("button", { class: "act", onclick: () => { if (inp.value) update(date, x => { x.tasks[it.id] = inp.value; }); editing = null; render(); } }, "Save"),
-      el("button", { class: "act ghost", onclick: () => { editing = null; update(date, x => { delete x.tasks[it.id]; }); } }, "Undo"));
+      el("button", { class: "act ghost", onclick: () => { editing = null; update(date, x => { delete x.tasks[it.id]; }, { msg: it.label + " removed" }); } }, "Remove"));
   }
 
   function renderToday() {
@@ -208,6 +244,15 @@
         el("div", {}, el("b", {}, days === null ? "Back up your data" : "Last backup " + days + " days ago"), el("div", { class: "muted" }, "Your log lives in this browser. Export a .json copy so you don't lose it.")),
         el("button", { class: "go", onclick: exportData }, "Export")));
     }
+
+    // first-run welcome (goes away once you log something or tap Got it)
+    if (!Object.keys(records).length && !pref.get("welcome", "")) p.append(el("div", { class: "banner" },
+      el("div", {}, el("b", {}, "Welcome. Here's how this works"),
+        el("ul", { class: "plain small" },
+          el("li", {}, "Tap a task in the day plan when you do it. The time is saved for you."),
+          el("li", {}, "Habits fill in by themselves from what you log. Nothing to tick."),
+          el("li", {}, "Your log stays in this browser. Export a backup now and then from Guide."))),
+      el("button", { class: "go", onclick: () => { pref.set("welcome", "1"); render(); } }, "Got it")));
 
     // now / next
     if (isToday) {
@@ -255,7 +300,7 @@
         el("div", { class: "muted small" }, "Ate sweets or packaged snacks? Log it honestly."),
         el("div", { class: "pair" },
           el("button", { "aria-label": "Remove a slip", disabled: !r.slips || null, onclick: () => update(date, x => { x.slips = Math.max(0, x.slips - 1); }) }, "−"),
-          el("button", { class: "slip", onclick: () => update(date, x => { x.slips = x.slips + 1; }) }, "Log a slip")))
+          el("button", { class: "slip", onclick: () => update(date, x => { x.slips = x.slips + 1; }, { msg: "Slip logged" }) }, "Log a slip")))
     ));
 
     // day plan (the main thing you interact with)
@@ -455,6 +500,52 @@
       render();
     } catch (e) { toast(e.message && e.message.length < 80 ? e.message : "Couldn't read that file"); }
   }
+  // passcode forms: each field is a password input; submit calls an Auth method that resolves to an error message or null
+  function lockForm(fields, button, run) {
+    const msg = el("div", { class: "lockmsg small", role: "alert" });
+    return el("form", { class: "stack", novalidate: true, onsubmit: async e => {
+      e.preventDefault(); msg.textContent = "";
+      const err = await run(Object.fromEntries(fields.map(([id]) => [id, $("lk-" + id).value])));
+      if (err) msg.textContent = err;
+    } }, ...fields.map(([id, label, auto]) => el("label", { class: "fld", for: "lk-" + id }, label,
+      el("input", { type: "password", id: "lk-" + id, autocomplete: auto, autocapitalize: "off", spellcheck: "false" }))), msg,
+      el("button", { class: "go", type: "submit" }, button));
+  }
+  function lockCard() {
+    const on = Auth.enabled(), min = "Passcode (at least " + Auth.minLen + " characters)";
+    const card = el("div", { class: "card" }, el("div", { class: "cardhead" }, el("h2", {}, "App lock"), el("span", { class: "muted small" }, on ? "On" : "Off")));
+    if (!Auth.supported) { card.append(el("p", { class: "small muted", style: "margin:0" }, "A passcode needs a secure page (https or localhost).")); return card; }
+    if (!on) {
+      card.append(el("p", { class: "small", style: "margin:0 0 10px" }, "Ask for a passcode when the app opens, so nobody else can read your log on this device. Digits are fine."),
+        lockForm([["new", min, "new-password"], ["again", "Type it again", "new-password"]], "Turn on lock",
+          async v => { const err = await Auth.setPasscode(v.new, v.again); if (!err) { toast("App lock is on"); render(); } return err; }));
+      return card;
+    }
+    const sel = el("select", { id: "lk-auto", onchange: () => { Auth.setAutoMs(Number(sel.value)); toast("Auto-lock updated"); } },
+      ...Auth.autoOptions.map(([label, ms]) => el("option", { value: ms, selected: ms === Auth.autoMs() }, label)));
+    card.append(el("button", { class: "go", type: "button", onclick: () => Auth.lock() }, "Lock now"),
+      el("label", { class: "fld", for: "lk-auto", style: "margin-top:12px" }, "Lock automatically", sel),
+      el("details", {}, el("summary", {}, "Change passcode"), lockForm([["cur", "Current passcode", "current-password"], ["new", min.replace("Passcode", "New passcode"), "new-password"], ["again", "Type the new one again", "new-password"]], "Save passcode",
+        async v => { const err = await Auth.setPasscode(v.new, v.again, v.cur); if (!err) { toast("Passcode changed"); render(); } return err; })),
+      el("details", {}, el("summary", {}, "Turn off lock"), lockForm([["cur", "Current passcode", "current-password"]], "Turn off",
+        async v => { const err = await Auth.removePasscode(v.cur); if (!err) { toast("App lock is off"); render(); } return err; })),
+      el("p", { class: "muted small", style: "margin:10px 0 0" }, "The lock hides the app on this device. It doesn't encrypt the log. Forgot the passcode? Use the link on the lock screen."));
+    return card;
+  }
+  function displayCard() {
+    const cur = pref.get("theme", "auto");
+    const card = el("div", { class: "card" }, el("div", { class: "cardhead" }, el("h2", {}, "Display")),
+      el("div", { class: "setrow" }, el("span", {}, "Theme"),
+        el("div", { class: "seg", role: "group", "aria-label": "Theme" }, ...[["auto", "Auto"], ["light", "Light"], ["dark", "Dark"]].map(([v, label]) =>
+          el("button", { type: "button", "aria-pressed": String(cur === v), onclick: () => { pref.set("theme", v); applyTheme(); render(); } }, label)))));
+    if (navigator.wakeLock) {
+      const cb = el("input", { type: "checkbox", id: "wake-pref", onchange: () => { pref.set("wake", cb.checked ? "1" : "0"); syncWake(); } });
+      cb.checked = pref.get("wake", "1") === "1";
+      card.append(el("label", { class: "setrow", for: "wake-pref" }, el("span", {}, "Keep the screen on in Workout", el("small", { class: "muted" }, "Stops the phone locking between sets")), cb));
+    }
+    return card;
+  }
+
   function renderGuide() {
     const p = $("p-guide"); p.replaceChildren();
     const lb = store.meta().lastBackup;
@@ -468,6 +559,8 @@
         store.download ? el("button", { class: "go", onclick: exportData }, "Export .json") : null,
         el("label", { class: "go ghost filebtn", for: "importFile" }, "Import .json"), fileIn),
       el("p", { class: "muted small", style: "margin:10px 0 0" }, Object.keys(records).length + (Object.keys(records).length === 1 ? " day" : " days") + " logged · " + (lb ? "last backup " + new Date(lb).toLocaleDateString(undefined, { day: "numeric", month: "short" }) : "never backed up"))));
+
+    p.append(el("div", { class: "cols" }, window.Auth && Auth.why !== "claude" ? lockCard() : null, displayCard()));
 
     p.append(el("div", { class: "card" }, el("div", { class: "cardhead" }, el("h2", {}, "Daily targets"), el("span", { class: "muted small" }, PLAN.profile)),
       el("div", { class: "targets" }, ...PLAN.targets.map(([n, v, s]) => el("div", {}, el("small", {}, n), el("b", {}, v), el("small", {}, s))))));
@@ -491,15 +584,49 @@
   $("backToday").addEventListener("click", () => { selDate = todayStr(); render(); });
   $("modeWfh").addEventListener("click", () => update(selDate, x => { x.mode = "wfh"; }));
   $("modeOffice").addEventListener("click", () => update(selDate, x => { x.mode = "office"; }));
+  const step = n => { selDate = ymd(addDays(parse(selDate), n)); editing = null; render(); };
+  $("prevDay").addEventListener("click", () => step(-1));
+  $("nextDay").addEventListener("click", () => step(1));
+  $("lockNow").addEventListener("click", () => window.Auth && Auth.lock());
+
+  // keep the screen awake while the Workout tab is open (opt-out in Guide), so the phone doesn't lock between sets
+  let wl = null, wlBusy = false;
+  async function syncWake() {
+    if (!navigator.wakeLock || wlBusy) return;
+    const want = pref.get("wake", "1") === "1" && tab === "workout" && document.visibilityState === "visible";
+    if (want === !!wl) return;
+    wlBusy = true;
+    try { if (want) { wl = await navigator.wakeLock.request("screen"); wl.addEventListener("release", () => { wl = null; }); } else { await wl.release(); wl = null; } }
+    catch (e) { wl = null; }
+    wlBusy = false;
+  }
+  document.addEventListener("visibilitychange", syncWake);
+
+  // every tap rebuilds the panel, which would drop keyboard focus; remember which button it was on and put it back.
+  // Only when the panel still has the same number of controls, so focus never lands on something unrelated.
+  const FOCUSABLE = "button:not([disabled]),input:not([disabled]),textarea,summary,select";
+  function focusKey() {
+    const ae = document.activeElement, box = ae && ae.matches("button,summary") ? ae.closest("#days,section[role=tabpanel]") : null;
+    if (!box) return null;
+    const all = [...box.querySelectorAll(FOCUSABLE)];
+    return { id: box.id, at: all.indexOf(ae), n: all.length, ae };
+  }
+  function restoreFocus(k) {
+    if (!k || k.at < 0 || k.ae.isConnected) return;
+    const all = [...$(k.id).querySelectorAll(FOCUSABLE)];
+    if (all.length === k.n) all[k.at].focus({ preventScroll: true });
+  }
 
   let pendingRender = false;
   function render() {
     const ae = document.activeElement;
-    if (ae && (ae.tagName === "TEXTAREA" || (ae.tagName === "INPUT" && (ae.type === "text" || ae.type === "time")))) { pendingRender = true; return; }
+    if (ae && (ae.tagName === "TEXTAREA" || (ae.tagName === "INPUT" && ["text", "time", "password"].includes(ae.type)))) { pendingRender = true; return; }
     pendingRender = false;
+    const fk = focusKey();
     renderHeader();
     VIEWS.forEach(t => { $("p-" + t).hidden = t !== tab; $("tab-" + t).setAttribute("aria-selected", String(t === tab)); });
     ({ today: renderToday, workout: renderWorkout, progress: renderProgress, guide: renderGuide })[tab]();
+    restoreFocus(fk); syncWake();
   }
   document.addEventListener("focusout", () => setTimeout(() => { if (pendingRender) render(); }, 0));
   let lastMin = nowMin(), lastDay = todayStr();

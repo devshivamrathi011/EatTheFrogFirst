@@ -292,3 +292,55 @@ details.card.warm table{margin-top:8px}
 table.ps.three td:last-child{text-align:left;font:inherit;color:var(--muted)}
 table.ps.three td:nth-child(2){font:600 13px var(--mono);white-space:nowrap}
 .banner ul.plain{margin:4px 0 0}
+
+/* v5: day arrows, undo toast, app lock, settings, touch polish */
+button,summary,label,input[type="checkbox"],select{touch-action:manipulation}
+button:not(:disabled):active{transform:scale(.97)}
+.hright{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dnav{display:flex;gap:4px;align-items:center}
+.dnav.has-nav #dateLabel{min-width:7.5em;text-align:center}
+.iconbtn{width:36px;height:36px;flex:none;padding:0;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:50%;display:inline-grid;place-items:center;cursor:pointer}
+.iconbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn:disabled{opacity:.35;cursor:default}
+.dnav .iconbtn{width:28px;height:28px;position:relative;border-color:transparent;background:transparent}
+.dnav .iconbtn::after{content:"";position:absolute;inset:-8px}
+.dnav .iconbtn svg{width:16px;height:16px}
+.seg button{min-height:32px}
+.act{min-height:40px;padding-inline:14px}
+.scale button,.pair button{min-height:40px}
+
+/* undo toast sits low, where the thumb is, and clears the rest timer */
+.toast{top:auto;bottom:calc(var(--navh) + 14px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px)}
+.timer:not([hidden]) ~ .toast{bottom:calc(var(--navh) + 94px + env(safe-area-inset-bottom,0px))}
+@media (min-width:900px){.toast{bottom:24px}.timer:not([hidden]) ~ .toast{bottom:104px}}
+.toast button{border:0;background:color-mix(in srgb,var(--now-fg) 18%,transparent);color:var(--now-fg);border-radius:999px;padding:6px 14px;font-weight:700;font-size:13px;cursor:pointer;min-height:32px}
+
+/* settings forms */
+.stack{display:grid;gap:10px;margin-top:10px}
+.fld{display:grid;gap:4px;font-size:13px;font-weight:600}
+.fld input,.fld select{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--raised);color:var(--ink);padding:9px 11px;font:inherit;font-weight:400}
+.setrow{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:6px 0;cursor:pointer}
+.setrow small{display:block;font-size:12.5px}
+.setrow input[type="checkbox"]{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.card .stack .go{justify-self:start}
+.lockmsg{min-height:1.3em;font-size:13.5px;color:var(--warn);font-weight:600}
+
+/* app lock screen */
+.lock{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;padding:24px;overflow:auto}
+.lockbox{width:min(360px,100%);display:grid;gap:12px}
+.lockbox .brand{display:flex;gap:12px;align-items:center;margin-bottom:4px}
+.lockbox .brand svg{width:34px;height:34px;flex:none;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lockbox p{margin:0;color:var(--muted);font-size:14px}
+.lockbox input[type="password"],.lockbox input[type="text"]{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:12px 14px;font:inherit;font-size:18px}
+.lockbox input:disabled{opacity:.5}
+.lockrow{display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-height:1.5em}
+.lockrow span{font:600 13px var(--mono);color:var(--muted)}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.lockgo{border:0;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:13px 18px;font-weight:700;font-size:15px;cursor:pointer}
+.lockgo:disabled{opacity:.55;cursor:default}
+.locklink{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:14px;cursor:pointer;justify-self:start;padding:8px 0}
+.lockreset{display:grid;gap:10px;background:var(--accent-soft);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.lockdanger{border:0;background:#B8431F;color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;justify-self:start}
+html.locked{overflow:hidden}
+.banner .go{white-space:nowrap;flex:none}

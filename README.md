@@ -20,8 +20,38 @@ Habits are never ticked by hand. They fill in from what you log on the **Today**
 | Screens off by 10:15 pm | *Screens off* tapped between 5 pm and 10:15 pm |
 | Career / business block | Any study, build or business block done that day (reading, build block, commute study, evening block, Saturday build, Sunday business or review) |
 
-Tapping a task records the current time. Tap a done task again to change the time or undo it.
+Tapping a task records the current time. Tap a done task again to change the time or remove it.
+After most taps an **Undo** button shows for a few seconds. Use the arrows beside the date to step between days.
 Thresholds live in `data/plan.json` → `rules`.
+
+## App lock (passcode)
+
+On first launch the app offers to set a passcode (or **Not now**). You can turn it on, change it, or turn it off
+any time in **Guide → App lock**.
+
+- The passcode is never stored. Only a salted PBKDF2-SHA-256 hash (600,000 rounds) is kept in the browser.
+- Five wrong tries in a row start a timed wait: 30 s, then 60 s, 2 min and so on, up to 15 min.
+- The app re-locks after it has been in the background for the time you choose (default 5 minutes), or any time with the lock button in the header.
+- Nothing from `data/` is requested until you unlock.
+- **Forgot it?** There is no recovery. The link on the lock screen erases this browser's tracker data and the lock,
+  so keep your `.json` exports and Import one afterwards.
+- It needs https or `localhost` (the browser's crypto API). GitHub Pages is https.
+
+**What it does not do.** A static site has no server to check a login against, so this is a lock on the screen, not
+encryption. It stops someone picking up your phone or opening the link from seeing your log. It does not hide the
+files: anyone can still fetch `data/plan.json` by URL, and anyone with devtools on your device can read the stored log.
+
+## Private repo and GitHub Pages
+
+- **Free plan:** Pages only works from a *public* repo.
+- **Pro / Team / Enterprise Cloud:** Pages also works from a *private* repo, but the published site is still public
+  on the internet. Making the repo private hides the source, not the site.
+- **Truly private site:** only an organisation on GitHub Enterprise Cloud can limit a Pages project site to its members.
+  Other routes are a host that puts a login in front of the site (for example Cloudflare Pages with Cloudflare Access),
+  or CloudFront with signed access for the S3 route below.
+- `data/plan.json` holds your age, height, weight and the skin, hair and gut notes. If the site is public, so is that.
+  Edit the `profile` line and the `issues` text before publishing, or keep the repo and site private as above.
+- `index.html` carries `noindex`, which asks search engines not to list the page. It is a request, not a lock.
 
 ## Where your data is stored
 
@@ -65,7 +95,6 @@ The plan content is plain JSON you can edit:
 Browsers block `fetch()` from `file://`, so serve the folder:
 
 ```bash
-cd site
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
@@ -83,7 +112,7 @@ python3 -m http.server 8000
 ```bash
 aws s3 mb s3://my-routine-tracker
 aws s3 website s3://my-routine-tracker --index-document index.html
-aws s3 sync ./site s3://my-routine-tracker --delete \
+aws s3 sync . s3://my-routine-tracker --delete --exclude ".git/*" \
   --cache-control "no-cache"
 ```
 
@@ -93,5 +122,6 @@ You need HTTPS for offline mode and Add to Home Screen. The S3 website endpoint 
 
 ## After you change files
 
-Bump `VERSION` in `sw.js` (e.g. `routine-v4`) so phones pick up the new files.
+Bump `VERSION` in `sw.js` (e.g. `routine-v6`) so phones pick up the new files.
+If you add a new file, add it to `FILES` in `sw.js` too (that list is what works offline).
 Data files are fetched network-first, so edits to `data/*.json` show up on the next online load anyway.

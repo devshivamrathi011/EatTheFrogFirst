@@ -1,6 +1,6 @@
 /* Offline cache for the Daily Routine Tracker. Bump VERSION after you change any file. */
-const VERSION = "routine-v4";
-const FILES = ["./", "index.html", "css/app.css", "js/store.js", "js/app.js",
+const VERSION = "routine-v5";
+const FILES = ["./", "index.html", "css/app.css", "js/store.js", "js/auth.js", "js/app.js",
   "data/plan.json", "data/workouts.json", "data/figures.json", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES))); self.skipWaiting(); });
