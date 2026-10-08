@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Routine Tracker</title>
+<meta name="description" content="Hybrid training, vegetarian meals and daily routine tracker. Habits fill in from what you log.">
+<meta name="theme-color" content="#F6F4EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#13181C" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="hrow">
+      <div>
+        <div class="eyebrow" id="dateLabel">Today</div>
+        <h1 id="dayTitle">Today</h1>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="backtoday" id="backToday" hidden>Back to today</button>
+        <div class="seg" role="group" aria-label="Day type" id="modeSeg">
+          <button id="modeWfh" aria-pressed="true">WFH</button>
+          <button id="modeOffice" aria-pressed="false">Office</button>
+        </div>
+      </div>
+    </div>
+    <div class="days" id="days" role="group" aria-label="Pick a day this week"></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-today" aria-controls="p-today" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Today</button>
+      <button role="tab" id="tab-workout" aria-controls="p-workout" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M3 9v6M6 6v12M18 6v12M21 9v6M6 12h12"/></svg>Workout</button>
+      <button role="tab" id="tab-progress" aria-controls="p-progress" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Progress</button>
+      <button role="tab" id="tab-guide" aria-controls="p-guide" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 4h10l4 4v12H5z"/><path d="M9 12h6M9 16h6"/></svg>Guide</button>
+    </nav>
+  </header>
+  <section role="tabpanel" id="p-today" aria-labelledby="tab-today"><div class="empty">Loading your plan…</div></section>
+  <section role="tabpanel" id="p-workout" aria-labelledby="tab-workout" hidden></section>
+  <section role="tabpanel" id="p-progress" aria-labelledby="tab-progress" hidden></section>
+  <section role="tabpanel" id="p-guide" aria-labelledby="tab-guide" hidden></section>
+  <p class="status" id="status"></p>
+</div>
+<div class="timer" id="timer" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

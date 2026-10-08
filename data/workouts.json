@@ -1,0 +1,645 @@
+{
+ "Mon": {
+  "am": {
+   "t": "Easy run 25-30 min + core",
+   "desc": "Easy run 25-30 min at conversational pace, then core.",
+   "ex": [
+    {
+     "k": "plank",
+     "n": "Plank",
+     "sr": "3 x 40 sec",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Elbows under shoulders, straight line head to heels, squeeze glutes",
+     "note": ""
+    },
+    {
+     "k": "dead-bug",
+     "n": "Dead bug",
+     "sr": "3 x 10/side",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Lower opposite arm + leg slowly, lower back stays pressed down",
+     "note": ""
+    },
+    {
+     "k": "side-plank",
+     "n": "Side plank",
+     "sr": "2 x 30 sec/side",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Elbow under shoulder, hips high, top arm to ceiling",
+     "note": ""
+    },
+    {
+     "k": "glute-bridge",
+     "n": "Glute bridge",
+     "sr": "3 x 15",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Drive through heels, squeeze glutes at the top, ribs down",
+     "note": ""
+    }
+   ]
+  },
+  "pm": {
+   "t": "Push A",
+   "ex": [
+    {
+     "k": "flat-dumbbell-bench-press",
+     "n": "Flat dumbbell bench press",
+     "sr": "4 x 8-10",
+     "rest": "2 min",
+     "rs": 120,
+     "cue": "Feet flat, shoulder blades pinched, lower DBs to chest level",
+     "note": ""
+    },
+    {
+     "k": "incline-dumbbell-press",
+     "n": "Incline dumbbell press",
+     "sr": "3 x 10-12",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Bench at 30-45 deg, press up over upper chest",
+     "note": ""
+    },
+    {
+     "k": "seated-dumbbell-shoulder-press",
+     "n": "Seated dumbbell shoulder press",
+     "sr": "3 x 8-10",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Back upright, press from ear level to overhead",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-lateral-raise",
+     "n": "Dumbbell lateral raise",
+     "sr": "3 x 12-15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Slight elbow bend, raise to shoulder height, lead with elbows",
+     "note": ""
+    },
+    {
+     "k": "ez-bar-skull-crushers",
+     "n": "EZ bar skull crushers",
+     "sr": "3 x 10-12",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Upper arms still, lower bar toward forehead, extend up",
+     "note": ""
+    },
+    {
+     "k": "overhead-dumbbell-triceps-extension",
+     "n": "Overhead dumbbell triceps extension",
+     "sr": "2 x 12-15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "One DB in both hands, elbows point up, lower behind head",
+     "note": ""
+    }
+   ]
+  }
+ },
+ "Tue": {
+  "am": {
+   "t": "Intervals: 6 x 1 min hard / 90 s easy",
+   "desc": "10 min easy jog, 6 x (1 min hard / 90 s walk-jog), 5 min cool-down. Add 1 rep every 2 weeks (max 10).",
+   "ex": []
+  },
+  "pm": {
+   "t": "Pull A",
+   "ex": [
+    {
+     "k": "one-arm-dumbbell-row",
+     "n": "One-arm dumbbell row",
+     "sr": "4 x 8-10/side",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Knee + hand on bench, flat back, pull elbow to hip",
+     "note": ""
+    },
+    {
+     "k": "chest-supported-dumbbell-row",
+     "n": "Chest-supported dumbbell row",
+     "sr": "3 x 10-12",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Chest on incline bench, pull elbows back, squeeze shoulder blades",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-pullover",
+     "n": "Dumbbell pullover",
+     "sr": "3 x 10-12",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "One DB in both hands, slight elbow bend, arc back behind head",
+     "note": ""
+    },
+    {
+     "k": "rear-delt-fly",
+     "n": "Rear delt fly",
+     "sr": "3 x 12-15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Hinge forward 45 deg, soft elbows, raise arms out wide",
+     "note": ""
+    },
+    {
+     "k": "ez-bar-curl",
+     "n": "EZ bar curl",
+     "sr": "3 x 8-10",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Elbows pinned to sides, curl up, lower slowly",
+     "note": ""
+    },
+    {
+     "k": "hammer-curl",
+     "n": "Hammer curl",
+     "sr": "2 x 10-12",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Palms face in (thumbs up), elbows still",
+     "note": ""
+    }
+   ]
+  }
+ },
+ "Wed": {
+  "am": {
+   "t": "Bodyweight circuit + mobility",
+   "desc": "No run today. Circuit 3-4 rounds, 90 s rest between rounds, then mobility.",
+   "ex": [
+    {
+     "k": "push-ups",
+     "n": "Push-ups",
+     "sr": "15",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Hands under shoulders, body rigid, chest to fist height",
+     "note": ""
+    },
+    {
+     "k": "bodyweight-squats",
+     "n": "Bodyweight squats",
+     "sr": "20",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Sit hips back and down, knees track over toes, chest up",
+     "note": ""
+    },
+    {
+     "k": "reverse-lunges",
+     "n": "Reverse lunges",
+     "sr": "10/leg",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Step back, drop rear knee toward floor, front shin vertical",
+     "note": ""
+    },
+    {
+     "k": "pike-push-ups",
+     "n": "Pike push-ups",
+     "sr": "8-10",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Hips high, lower head between hands, elbows back",
+     "note": ""
+    },
+    {
+     "k": "burpees",
+     "n": "Burpees",
+     "sr": "10",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Squat, kick back to plank, jump feet in, jump up with arms high",
+     "note": ""
+    },
+    {
+     "k": "mountain-climbers",
+     "n": "Mountain climbers",
+     "sr": "30 sec",
+     "rest": "-",
+     "rs": 0,
+     "cue": "High plank, drive knees to chest one at a time, hips level",
+     "note": ""
+    },
+    {
+     "k": "plank",
+     "n": "Plank",
+     "sr": "45 sec",
+     "rest": "90 s after round",
+     "rs": 90,
+     "cue": "Elbows under shoulders, straight line head to heels, squeeze glutes",
+     "note": "Do 3-4 rounds of the circuit"
+    },
+    {
+     "k": "cat-cow",
+     "n": "Cat-cow",
+     "sr": "10 reps",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Round the spine and tuck chin, then arch and look up - slow breaths",
+     "note": ""
+    },
+    {
+     "k": "world-s-greatest-stretch",
+     "n": "World's greatest stretch",
+     "sr": "5/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Deep lunge, hand inside front foot, rotate other arm to ceiling",
+     "note": ""
+    },
+    {
+     "k": "hip-flexor-stretch",
+     "n": "Hip flexor stretch",
+     "sr": "45 sec/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Half-kneel, tuck pelvis, squeeze rear glute, lean forward gently",
+     "note": ""
+    },
+    {
+     "k": "hamstring-calf-stretch",
+     "n": "Hamstring + calf stretch",
+     "sr": "45 sec/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Front heel down toes up, hinge at hips with flat back",
+     "note": ""
+    }
+   ]
+  },
+  "pm": {
+   "t": "Legs A",
+   "ex": [
+    {
+     "k": "goblet-squat",
+     "n": "Goblet squat",
+     "sr": "4 x 8-12",
+     "rest": "2 min",
+     "rs": 120,
+     "cue": "Hold one DB at chest, sit between heels, elbows inside knees",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-romanian-deadlift",
+     "n": "Dumbbell Romanian deadlift",
+     "sr": "4 x 8-10",
+     "rest": "2 min",
+     "rs": 120,
+     "cue": "Soft knees, push hips back, DBs slide down legs, flat back",
+     "note": ""
+    },
+    {
+     "k": "bulgarian-split-squat",
+     "n": "Bulgarian split squat",
+     "sr": "3 x 8-10/leg",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Rear foot on bench, drop straight down, front heel planted",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-hip-thrust",
+     "n": "Dumbbell hip thrust",
+     "sr": "3 x 10-12",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Upper back on bench, DB on hips, drive hips up to flat",
+     "note": ""
+    },
+    {
+     "k": "single-leg-calf-raise",
+     "n": "Single-leg calf raise",
+     "sr": "3 x 12-15",
+     "rest": "45 s",
+     "rs": 45,
+     "cue": "Rise fully onto toes, pause, lower heel slowly",
+     "note": ""
+    },
+    {
+     "k": "lying-leg-raise-on-bench",
+     "n": "Lying leg raise (on bench)",
+     "sr": "3 x 12",
+     "rest": "45 s",
+     "rs": 45,
+     "cue": "Grip bench behind head, raise straight legs, lower with control",
+     "note": ""
+    }
+   ]
+  }
+ },
+ "Thu": {
+  "am": {
+   "t": "Recovery run 20-25 min + mobility",
+   "desc": "Very easy 20-25 min. Swap for a brisk 30-min walk if legs are sore.",
+   "ex": [
+    {
+     "k": "cat-cow",
+     "n": "Cat-cow",
+     "sr": "10 reps",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Round the spine and tuck chin, then arch and look up - slow breaths",
+     "note": ""
+    },
+    {
+     "k": "world-s-greatest-stretch",
+     "n": "World's greatest stretch",
+     "sr": "5/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Deep lunge, hand inside front foot, rotate other arm to ceiling",
+     "note": ""
+    },
+    {
+     "k": "hip-flexor-stretch",
+     "n": "Hip flexor stretch",
+     "sr": "45 sec/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Half-kneel, tuck pelvis, squeeze rear glute, lean forward gently",
+     "note": ""
+    },
+    {
+     "k": "hamstring-calf-stretch",
+     "n": "Hamstring + calf stretch",
+     "sr": "45 sec/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Front heel down toes up, hinge at hips with flat back",
+     "note": ""
+    }
+   ]
+  },
+  "pm": {
+   "t": "Push B",
+   "ex": [
+    {
+     "k": "incline-dumbbell-press",
+     "n": "Incline dumbbell press",
+     "sr": "4 x 8-10",
+     "rest": "2 min",
+     "rs": 120,
+     "cue": "Bench at 30-45 deg, press up over upper chest",
+     "note": ""
+    },
+    {
+     "k": "close-grip-ez-bar-bench-press",
+     "n": "Close-grip EZ bar bench press",
+     "sr": "3 x 8-10",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Hands shoulder-width, elbows tucked close to body",
+     "note": ""
+    },
+    {
+     "k": "arnold-press",
+     "n": "Arnold press",
+     "sr": "3 x 10",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Start palms facing you, rotate out as you press overhead",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-fly-flat-bench",
+     "n": "Dumbbell fly (flat bench)",
+     "sr": "3 x 12",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Soft elbows, open wide in an arc, squeeze chest to close",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-lateral-raise",
+     "n": "Dumbbell lateral raise",
+     "sr": "3 x 15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Slight elbow bend, raise to shoulder height, lead with elbows",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-triceps-kickback",
+     "n": "Dumbbell triceps kickback",
+     "sr": "2 x 12-15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Upper arm parallel to floor, straighten elbow fully",
+     "note": ""
+    }
+   ]
+  }
+ },
+ "Fri": {
+  "am": {
+   "t": "Tempo run 15-20 min + core",
+   "desc": "10 min easy, 15-20 min comfortably hard, 5 min easy. Then core.",
+   "ex": [
+    {
+     "k": "plank",
+     "n": "Plank",
+     "sr": "3 x 40 sec",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Elbows under shoulders, straight line head to heels, squeeze glutes",
+     "note": ""
+    },
+    {
+     "k": "dead-bug",
+     "n": "Dead bug",
+     "sr": "3 x 10/side",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Lower opposite arm + leg slowly, lower back stays pressed down",
+     "note": ""
+    },
+    {
+     "k": "side-plank",
+     "n": "Side plank",
+     "sr": "2 x 30 sec/side",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Elbow under shoulder, hips high, top arm to ceiling",
+     "note": ""
+    },
+    {
+     "k": "glute-bridge",
+     "n": "Glute bridge",
+     "sr": "3 x 15",
+     "rest": "30 s",
+     "rs": 30,
+     "cue": "Drive through heels, squeeze glutes at the top, ribs down",
+     "note": ""
+    }
+   ]
+  },
+  "pm": {
+   "t": "Pull B",
+   "ex": [
+    {
+     "k": "ez-bar-bent-over-row",
+     "n": "EZ bar bent-over row",
+     "sr": "4 x 8-10",
+     "rest": "2 min",
+     "rs": 120,
+     "cue": "Hinge to ~45 deg, flat back, pull bar to belly button",
+     "note": ""
+    },
+    {
+     "k": "neutral-grip-chest-supported-row",
+     "n": "Neutral-grip chest-supported row",
+     "sr": "3 x 10",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Palms facing each other, chest stays on pad, pull to ribs",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-shrug",
+     "n": "Dumbbell shrug",
+     "sr": "3 x 12-15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Arms straight, lift shoulders to ears, pause, lower",
+     "note": ""
+    },
+    {
+     "k": "chest-supported-rear-delt-fly",
+     "n": "Chest-supported rear delt fly",
+     "sr": "3 x 15",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Chest on incline bench, raise arms out wide, thumbs down",
+     "note": ""
+    },
+    {
+     "k": "incline-dumbbell-curl",
+     "n": "Incline dumbbell curl",
+     "sr": "3 x 10",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Lean back on incline, arms hang behind body, curl without swinging",
+     "note": ""
+    },
+    {
+     "k": "ez-bar-reverse-curl",
+     "n": "EZ bar reverse curl",
+     "sr": "2 x 12",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Overhand grip (palms down), curl slowly - forearms",
+     "note": ""
+    }
+   ]
+  }
+ },
+ "Sat": {
+  "am": {
+   "t": "Long easy run 40-60 min",
+   "desc": "Start at 40 min, add 5 min per week up to 60. Slow is fine.",
+   "ex": []
+  },
+  "pm": {
+   "t": "Legs B (moderate)",
+   "ex": [
+    {
+     "k": "dumbbell-reverse-lunge",
+     "n": "Dumbbell reverse lunge",
+     "sr": "3 x 10/leg",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Step back, rear knee toward floor, push through front heel",
+     "note": ""
+    },
+    {
+     "k": "single-leg-romanian-deadlift",
+     "n": "Single-leg Romanian deadlift",
+     "sr": "3 x 10/leg",
+     "rest": "90 s",
+     "rs": 90,
+     "cue": "Hinge on one leg, back leg lifts in line with torso",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-step-ups-onto-bench",
+     "n": "Dumbbell step-ups onto bench",
+     "sr": "3 x 10/leg",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Whole foot on bench, drive through that heel, no push-off from back leg",
+     "note": ""
+    },
+    {
+     "k": "dumbbell-sumo-squat",
+     "n": "Dumbbell sumo squat",
+     "sr": "3 x 12",
+     "rest": "60 s",
+     "rs": 60,
+     "cue": "Wide stance, toes out, one DB hanging between legs, knees out",
+     "note": ""
+    },
+    {
+     "k": "seated-calf-raise-db-on-knees",
+     "n": "Seated calf raise (DB on knees)",
+     "sr": "3 x 15-20",
+     "rest": "45 s",
+     "rs": 45,
+     "cue": "DB on knees, raise heels high, pause at top",
+     "note": ""
+    }
+   ]
+  }
+ },
+ "Sun": {
+  "am": {
+   "t": "Rest day",
+   "desc": "Optional 30-40 min walk and 10 min stretching.",
+   "ex": [
+    {
+     "k": "cat-cow",
+     "n": "Cat-cow",
+     "sr": "10 reps",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Round the spine and tuck chin, then arch and look up - slow breaths",
+     "note": ""
+    },
+    {
+     "k": "world-s-greatest-stretch",
+     "n": "World's greatest stretch",
+     "sr": "5/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Deep lunge, hand inside front foot, rotate other arm to ceiling",
+     "note": ""
+    },
+    {
+     "k": "hip-flexor-stretch",
+     "n": "Hip flexor stretch",
+     "sr": "45 sec/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Half-kneel, tuck pelvis, squeeze rear glute, lean forward gently",
+     "note": ""
+    },
+    {
+     "k": "hamstring-calf-stretch",
+     "n": "Hamstring + calf stretch",
+     "sr": "45 sec/side",
+     "rest": "-",
+     "rs": 0,
+     "cue": "Front heel down toes up, hinge at hips with flat back",
+     "note": ""
+    }
+   ]
+  },
+  "pm": null
+ }
+}

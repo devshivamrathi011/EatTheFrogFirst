@@ -1,0 +1,888 @@
+{
+ "profile": "25 y · 5'10\" · 75 kg · vegetarian",
+ "days": [
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+  "Sun"
+ ],
+ "am": {
+  "Mon": "Easy run 25-30 min + core",
+  "Tue": "Intervals: 6 x 1 min hard / 90 s easy",
+  "Wed": "Bodyweight circuit + mobility",
+  "Thu": "Recovery run 20-25 min + mobility",
+  "Fri": "Tempo run 15-20 min + core",
+  "Sat": "Long easy run 40-60 min",
+  "Sun": "Rest - 30 min walk + stretch"
+ },
+ "pm": {
+  "Mon": "PUSH A - chest, shoulders, triceps",
+  "Tue": "PULL A - back, biceps",
+  "Wed": "LEGS A - squats, RDL, split squats",
+  "Thu": "PUSH B",
+  "Fri": "PULL B",
+  "Sat": "LEGS B (moderate)",
+  "Sun": "Rest - meal prep + weekly review"
+ },
+ "meals": {
+  "Mon": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "Oats (60 g) cooked in milk + chia + walnuts + fruit",
+    "protein": 20,
+    "fv": 1,
+    "curd": false
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Rajma + 2 roti + 1/2 cup rice + curd + salad",
+    "protein": 27,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Paneer bhurji (100 g) + 2 roti + sabzi",
+    "protein": 26,
+    "fv": 1,
+    "curd": false
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  },
+  "Tue": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "2 besan chillas stuffed with 50 g paneer + curd",
+    "protein": 23,
+    "fv": 0,
+    "curd": true
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Soya chunk curry (40 g dry) + 2 roti + rice + curd + salad",
+    "protein": 34,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Moong dal khichdi + curd + 1 tsp ghee (easy on the gut)",
+    "protein": 18,
+    "fv": 1,
+    "curd": true
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  },
+  "Wed": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "Poha with peanuts + 1 cup moong sprouts + glass of milk",
+    "protein": 24,
+    "fv": 1,
+    "curd": false
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Chole + 2 roti + rice + curd + salad",
+    "protein": 25,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Tofu & veg stir-fry (150 g tofu) + rice",
+    "protein": 21,
+    "fv": 2,
+    "curd": false
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  },
+  "Thu": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "Oats (60 g) cooked in milk + chia + walnuts + fruit",
+    "protein": 20,
+    "fv": 1,
+    "curd": false
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Paneer sabzi (100 g) + 2 roti + rice + curd + salad",
+    "protein": 31,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Kala chana curry + 2 roti + sabzi",
+    "protein": 18,
+    "fv": 1,
+    "curd": false
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  },
+  "Fri": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "2 moong dal chillas + curd + mint chutney",
+    "protein": 19,
+    "fv": 0,
+    "curd": true
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Dal tadka + tofu bhurji (100 g) + 2 roti + curd + salad",
+    "protein": 37,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Palak paneer (100 g) + 2 roti",
+    "protein": 24,
+    "fv": 2,
+    "curd": false
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  },
+  "Sat": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "Paneer paratha (60 g paneer) + curd - after long run",
+    "protein": 21,
+    "fv": 0,
+    "curd": true
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Soya pulao + raita + salad",
+    "protein": 30,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Dal + paneer (50 g) + 2 roti + veg - refuel after legs",
+    "protein": 27,
+    "fv": 1,
+    "curd": false
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  },
+  "Sun": {
+   "prerun": {
+    "text": "Banana + 5 soaked almonds",
+    "protein": 2,
+    "fv": 1,
+    "curd": false
+   },
+   "breakfast": {
+    "text": "3 idli + sambar + glass of milk",
+    "protein": 19,
+    "fv": 1,
+    "curd": false
+   },
+   "mid": {
+    "text": "Fruit + 30 g roasted chana + 1 tbsp pumpkin seeds",
+    "protein": 9,
+    "fv": 1,
+    "curd": false
+   },
+   "lunch": {
+    "text": "Dal + jeera rice + roti + curd + salad",
+    "protein": 25,
+    "fv": 2,
+    "curd": true
+   },
+   "prewo": {
+    "text": "1 scoop whey in milk + banana (or 200 g hung curd + fruit)",
+    "protein": 32,
+    "fv": 1,
+    "curd": true
+   },
+   "dinner": {
+    "text": "Veg khichdi + curd + sprouts salad + 50 g paneer tikka",
+    "protein": 31,
+    "fv": 2,
+    "curd": true
+   },
+   "bed": {
+    "text": "Haldi milk (250 ml)",
+    "protein": 8,
+    "fv": 0,
+    "curd": false
+   }
+  }
+ },
+ "timeline": [
+  [
+   "wake",
+   "06:30",
+   "05:45",
+   "Wake up",
+   "Log when you get up. 500 ml water + 5 min sunlight",
+   "time"
+  ],
+  [
+   "prerun",
+   "06:40",
+   "05:50",
+   "Pre-run fuel",
+   null,
+   "meal"
+  ],
+  [
+   "am",
+   "07:00",
+   "06:00",
+   "Morning session",
+   null,
+   "session"
+  ],
+  [
+   "skinam",
+   "07:45",
+   "06:45",
+   "Shower + skin AM",
+   "Cleanser, moisturiser, sunscreen",
+   "time"
+  ],
+  [
+   "breakfast",
+   "08:15",
+   "07:15",
+   "Breakfast",
+   null,
+   "meal"
+  ],
+  [
+   "commute",
+   null,
+   "07:45",
+   "Commute study",
+   "Videos, docs or interview flashcards on the way (both ways)",
+   "time",
+   [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+   ],
+   true
+  ],
+  [
+   "work",
+   "09:00",
+   "09:00",
+   "Work",
+   "Stand up and move 2 min every hour",
+   "info",
+   [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+   ]
+  ],
+  [
+   "build",
+   "09:30",
+   "09:30",
+   "Saturday build block (4 h)",
+   "This week's project milestone",
+   "time",
+   [
+    "Sat"
+   ],
+   true
+  ],
+  [
+   "biz",
+   "10:00",
+   "10:00",
+   "Business block (3 h)",
+   "Customer calls, outreach, delivery",
+   "time",
+   [
+    "Sun"
+   ],
+   true
+  ],
+  [
+   "mid",
+   "11:00",
+   "11:00",
+   "Mid-morning snack",
+   null,
+   "meal"
+  ],
+  [
+   "lunch",
+   "13:00",
+   "13:00",
+   "Lunch",
+   null,
+   "meal"
+  ],
+  [
+   "walk1",
+   "13:30",
+   "13:30",
+   "10-min walk",
+   "After lunch. Helps digestion and blood sugar",
+   "time"
+  ],
+  [
+   "read",
+   "13:40",
+   null,
+   "Reading (20 min)",
+   "Docs, a paper or one chapter",
+   "time",
+   [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+   ],
+   true
+  ],
+  [
+   "reset",
+   "16:00",
+   "16:00",
+   "Sunday reset",
+   "Soak chana/rajma, prep veg + hung curd, wash pillowcases, weigh in",
+   "time",
+   [
+    "Sun"
+   ]
+  ],
+  [
+   "review",
+   "17:00",
+   "17:00",
+   "Weekly review (1 h)",
+   "Update the plan's scorecard, plan next week's build tasks",
+   "time",
+   [
+    "Sun"
+   ],
+   true
+  ],
+  [
+   "prewo",
+   "18:00",
+   "17:15",
+   "Pre-workout snack",
+   null,
+   "meal"
+  ],
+  [
+   "deep1",
+   "18:05",
+   null,
+   "Build block (50 min)",
+   "Hardest task of the day, written down the night before",
+   "time",
+   [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+   ],
+   true
+  ],
+  [
+   "home",
+   null,
+   "19:15",
+   "Home",
+   "",
+   "info",
+   [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+   ]
+  ],
+  [
+   "pm",
+   "19:00",
+   "19:30",
+   "Evening session",
+   null,
+   "session"
+  ],
+  [
+   "skinpm",
+   "20:15",
+   "20:30",
+   "Shower + skin PM",
+   "Within 30 min of training",
+   "time"
+  ],
+  [
+   "dinner",
+   "20:30",
+   "20:45",
+   "Dinner",
+   null,
+   "meal"
+  ],
+  [
+   "walk2",
+   "20:50",
+   "21:15",
+   "10-min walk",
+   "After dinner",
+   "time"
+  ],
+  [
+   "deep2",
+   "21:00",
+   "21:25",
+   "Evening block",
+   "WFH: 45 min build or business. Office: 20 min notes + tomorrow's task",
+   "time",
+   [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+   ],
+   true
+  ],
+  [
+   "bed",
+   "21:45",
+   "21:45",
+   "Haldi milk",
+   null,
+   "meal"
+  ],
+  [
+   "screens",
+   "21:45",
+   "21:45",
+   "Screens off",
+   "Dim lights, stretch or read. Counts if done by 10:15 pm",
+   "time"
+  ],
+  [
+   "sleep",
+   "22:30",
+   "22:15",
+   "Lights out",
+   "Log when you go to bed. Aim for 8 hours",
+   "time"
+  ]
+ ],
+ "habits": [
+  [
+   "Sleep 7.5 h+ (aim for 8)",
+   "energy",
+   "sleep",
+   "Lights out last night → Wake up today"
+  ],
+  [
+   "Morning sunlight",
+   "energy",
+   "sun",
+   "Wake up task"
+  ],
+  [
+   "Morning session",
+   "train",
+   "am",
+   "Morning session done"
+  ],
+  [
+   "Evening session",
+   "train",
+   "pm",
+   "Evening session done"
+  ],
+  [
+   "Protein 120 g+",
+   "food",
+   "protein",
+   "Meals eaten"
+  ],
+  [
+   "3 L water",
+   "food",
+   "water",
+   "Water log"
+  ],
+  [
+   "Curd / chaas",
+   "gut",
+   "curd",
+   "Meals with curd, raita or chaas"
+  ],
+  [
+   "5 fruit + veg servings",
+   "food",
+   "fv",
+   "Meals eaten"
+  ],
+  [
+   "Walk after lunch + dinner",
+   "gut",
+   "walks",
+   "Both 10-min walks"
+  ],
+  [
+   "No sweets / junk",
+   "skin",
+   "nojunk",
+   "Counts at 9 pm unless you log a slip"
+  ],
+  [
+   "Skincare AM + PM",
+   "skin",
+   "skin",
+   "Both skin tasks"
+  ],
+  [
+   "Screens off by 10:15 pm",
+   "energy",
+   "screens",
+   "Screens off task time"
+  ],
+  [
+   "Career / business block",
+   "career",
+   "career",
+   "Any study, build or business block done"
+  ]
+ ],
+ "officeDefault": [
+  "Tue",
+  "Thu"
+ ],
+ "rules": {
+  "goodDay": 10,
+  "proteinTarget": 120,
+  "waterGlasses": 12,
+  "glassMl": 250,
+  "fvTarget": 5,
+  "sleepMinHours": 7.5,
+  "screensBy": "22:15",
+  "nojunkAfter": "21:00"
+ },
+ "warmup": [
+  [
+   "Light jog or march on the spot",
+   "2 min"
+  ],
+  [
+   "Arm circles, leg swings, hip circles",
+   "10 each way"
+  ],
+  [
+   "Bodyweight squats",
+   "10"
+  ],
+  [
+   "Push-ups",
+   "5-10"
+  ],
+  [
+   "Evening: 1-2 light sets of your first exercise",
+   "before working sets"
+  ]
+ ],
+ "runGuide": [
+  [
+   "Easy / recovery / long",
+   "3-4 out of 10",
+   "You can hold a full conversation"
+  ],
+  [
+   "Tempo",
+   "6-7 out of 10",
+   "Comfortably hard, short phrases only"
+  ],
+  [
+   "Intervals",
+   "8-9 out of 10",
+   "Hard, a few words at most"
+  ]
+ ],
+ "easing": [
+  "Light weights and 2 sets per exercise",
+  "Runs can be run 2 min / walk 1 min",
+  "Soreness is normal; sharp or joint pain means stop and rest that area",
+  "From week 3: full sets, add weight when you hit the top of the rep range"
+ ],
+ "sunday": [
+  "Soak + boil chana/rajma, cut veg, make hung curd",
+  "Wash pillowcases and gym towel",
+  "Weigh in (same time, empty stomach)",
+  "Review weights log - what goes up next week?",
+  "Every 4th week: deload (half the sets)"
+ ],
+ "targets": [
+  [
+   "Protein",
+   "120-130 g",
+   "~1.6-1.75 g per kg"
+  ],
+  [
+   "Calories",
+   "2,700-2,900",
+   "maintenance for 2 sessions/day"
+  ],
+  [
+   "Water",
+   "3-3.5 L",
+   "+500 ml on run days"
+  ],
+  [
+   "Fiber",
+   "30 g+",
+   "veg, fruit, dal, oats, seeds"
+  ],
+  [
+   "Sleep",
+   "8 h",
+   "10:30 pm - 6:30 am"
+  ],
+  [
+   "Steps",
+   "8,000+",
+   "walk after meals"
+  ]
+ ],
+ "issues": {
+  "Acne / breakouts": [
+   "Cut sweets, cold drinks, packaged snacks and bakery items",
+   "Whey or milk can trigger acne in some people - if breakouts worsen, swap the whey shake for hung curd or paneer for 4 weeks",
+   "Shower within 30 min after every workout; wash face with a gentle cleanser twice a day",
+   "Sunscreen every morning; change pillowcase twice a week",
+   "Daily zinc foods: pumpkin seeds, chana, cashews"
+  ],
+  "Hair fall / thinning": [
+   "Hit your protein target every day - hair is made of protein",
+   "Iron: spinach, dal, rajma, jaggery, eaten with lemon or amla for vitamin C",
+   "Vegetarians are often low in B12 and vitamin D - get tested",
+   "Never crash diet; shedding shows up 2-3 months later",
+   "If the hairline or crown is thinning and it runs in the family, see a dermatologist early"
+  ],
+  "Gut (bloating, acidity, constipation)": [
+   "Curd or chaas every day for probiotics",
+   "Increase fiber slowly; soak and pressure-cook dal, rajma, chana and soya",
+   "10-min walk after lunch and dinner",
+   "Dinner at least 2 h before bed; chew slowly",
+   "Limit fried food, tea/coffee on an empty stomach, and very spicy dinners"
+  ],
+  "Low energy / poor sleep": [
+   "Same sleep and wake time every day, including weekends",
+   "Morning sunlight within 30 min of waking",
+   "No caffeine after 2 pm",
+   "Eat enough - 2 sessions a day burns a lot; under-eating = tired",
+   "Weeks 1-2: lighter weights and 2 sets per exercise; runs can be run/walk"
+  ]
+ },
+ "proteinSheet": [
+  [
+   "Whey protein, 1 scoop",
+   "24 g"
+  ],
+  [
+   "Soya chunks, 50 g dry",
+   "26 g"
+  ],
+  [
+   "Paneer, 100 g",
+   "18 g"
+  ],
+  [
+   "Tofu (firm), 100 g",
+   "12 g"
+  ],
+  [
+   "Hung curd / Greek yogurt, 200 g",
+   "20 g"
+  ],
+  [
+   "Curd, 1 cup (200 g)",
+   "7 g"
+  ],
+  [
+   "Milk, 1 glass (250 ml)",
+   "8 g"
+  ],
+  [
+   "Dal / rajma / chana, 1 bowl cooked",
+   "9-14 g"
+  ],
+  [
+   "Moong sprouts, 1 cup",
+   "7 g"
+  ],
+  [
+   "Roasted chana, 30 g",
+   "6 g"
+  ],
+  [
+   "Peanuts, 30 g",
+   "8 g"
+  ],
+  [
+   "Oats, 60 g dry",
+   "8 g"
+  ],
+  [
+   "Roti, 1 medium",
+   "3 g"
+  ]
+ ],
+ "supps": [
+  [
+   "Creatine monohydrate",
+   "3-5 g daily with water - strength + muscle"
+  ],
+  [
+   "Whey protein",
+   "only to hit protein; swap if acne worsens"
+  ],
+  [
+   "Vitamin D3 / B12",
+   "only if a blood test shows low - ask your doctor for the dose"
+  ]
+ ],
+ "tests": "Vitamin D, B12, ferritin (iron), TSH (thyroid), total testosterone (morning)"
+}
