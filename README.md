@@ -22,6 +22,9 @@ Habits are never ticked by hand. They fill in from what you log on the **Today**
 
 Tapping a task records the current time. Tap a done task again to change the time or remove it.
 After most taps an **Undo** button shows for a few seconds. Use the arrows beside the date to step between days.
+A **good day** is 10 or more habits and a **perfect day** is all 13. The flame on Today counts good days in a row
+and lights up once today qualifies. Hitting either one plays a short confetti burst (skipped if your phone asks for reduced motion).
+Done items from earlier in the day fold into one line; tap it to see them again.
 Thresholds live in `data/plan.json` → `rules`.
 
 ## App lock (passcode)
@@ -122,6 +125,6 @@ You need HTTPS for offline mode and Add to Home Screen. The S3 website endpoint 
 
 ## After you change files
 
-Bump `VERSION` in `sw.js` (e.g. `routine-v6`) so phones pick up the new files.
+Bump `VERSION` in `sw.js` (e.g. `routine-v7`) so phones pick up the new files.
 If you add a new file, add it to `FILES` in `sw.js` too (that list is what works offline).
 Data files are fetched network-first, so edits to `data/*.json` show up on the next online load anyway.

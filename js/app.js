@@ -52,6 +52,8 @@
   const store = await Store.open();
   let records = store.records();
   let selDate = todayStr(), tab = "today", editing = null;
+  let fresh = null, enter = true;      // fresh: the task just done (gets a pop); enter: the next render slides the panel in
+  const fold = {}, shown = {};           // fold: which collapsible cards are open; shown: last value drawn, so bars and the ring fill up from there
   const blank = () => ({ v: 2, mode: null, tasks: {}, meals: {}, sessions: {}, water: 0, slips: 0, checkin: {}, note: "", lifts: {} });
   const rec = date => { const r = records[date]; return r ? { ...blank(), ...r, tasks: { ...(r.tasks || {}) }, meals: { ...(r.meals || {}) }, sessions: { ...(r.sessions || {}) }, checkin: { ...(r.checkin || {}) }, lifts: { ...(r.lifts || {}) } } : blank(); };
   const modeFor = date => (records[date] && records[date].mode) || (PLAN.officeDefault.includes(dayOf(date)) ? "office" : "wfh");
@@ -130,7 +132,32 @@
     return e;
   }
   const svg = html => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; };
-  const buzz = () => { try { navigator.vibrate && navigator.vibrate(12); } catch (e) {} };
+  const buzz = (pattern = 12) => { try { navigator.vibrate && navigator.vibrate(pattern); } catch (e) {} };
+  const calm = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // set a bar or ring to `to` (0 to 1): draw it at the last value, then move it so the CSS transition plays
+  function fill(key, to, draw) {
+    const from = key in shown ? shown[key] : 0; shown[key] = to; draw(from);
+    if (from !== to) requestAnimationFrame(() => requestAnimationFrame(() => draw(to)));
+  }
+  // confetti burst from the middle of the screen; skipped when the phone asks for less motion
+  function confetti(n) {
+    if (calm() || !document.body.animate) return;
+    const box = el("div", { class: "confetti", "aria-hidden": "true" }), cs = getComputedStyle(document.documentElement);
+    const colors = ["--accent", "--food", "--am", "--pm", "--care"].map(v => cs.getPropertyValue(v).trim());
+    document.body.append(box);
+    for (let i = 0; i < n; i++) {
+      const p = el("i", { style: `background:${colors[i % colors.length]};left:50%;top:42%;width:${6 + Math.random() * 6}px;height:${9 + Math.random() * 8}px` });
+      const ang = (-20 - Math.random() * 140) * Math.PI / 180, sp = 180 + Math.random() * 320;
+      const dx = Math.cos(ang) * sp, dy = Math.sin(ang) * sp, fall = 380 + Math.random() * 260, rot = (Math.random() - .5) * 900;
+      box.append(p);
+      p.animate([
+        { transform: "translate(0,0) rotate(0) scale(.5)", opacity: 1 },
+        { transform: `translate(${dx * .65}px,${dy}px) rotate(${rot / 2}deg) scale(1)`, opacity: 1, offset: .4 },
+        { transform: `translate(${dx}px,${dy + fall}px) rotate(${rot}deg) scale(.9)`, opacity: 0 }
+      ], { duration: 1300 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)", fill: "forwards" });
+    }
+    setTimeout(() => box.remove(), 2400);
+  }
   let toastT;
   // with an undo function the toast stays longer and carries an Undo button
   function toast(msg, undo) {
@@ -153,8 +180,8 @@
     if (!opts.silent) render();
     const after = doneCount(date);
     let note = opts.msg || "";
-    if (after === NH && before < NH) note += (note ? " · " : "") + "All " + NH + " habits done. Great day.";
-    else if (after >= R.goodDay && before < R.goodDay) note += (note ? " · " : "") + "Good day: " + after + " / " + NH + " habits";
+    if (after === NH && before < NH) { note += (note ? " · " : "") + "Perfect day. All " + NH + " habits done"; confetti(90); buzz([30, 40, 30, 40, 90]); }
+    else if (after >= R.goodDay && before < R.goodDay) { note += (note ? " · " : "") + "Good day: " + after + " / " + NH + " habits"; confetti(42); buzz([30, 40, 60]); }
     if (note) toast(note, opts.msg ? () => undoTo(date, prev) : null);
   }
   // put a day back the way it was; stamped as new so it also wins when merged with other devices
@@ -183,9 +210,10 @@
   function toggleTask(date, it) {
     buzz();
     const r = rec(date);
-    if (it.kind === "meal") return update(date, x => { x.meals[it.id] = !r.meals[it.id]; }, { msg: it.label + (r.meals[it.id] ? " unmarked" : " eaten") });
-    if (it.kind === "session") return update(date, x => { x.sessions[it.id] = !r.sessions[it.id]; }, { msg: it.label + (r.sessions[it.id] ? " unmarked" : " done") });
+    if (it.kind === "meal") { if (!r.meals[it.id]) fresh = it.id; return update(date, x => { x.meals[it.id] = !r.meals[it.id]; }, { msg: it.label + (r.meals[it.id] ? " unmarked" : " eaten") }); }
+    if (it.kind === "session") { if (!r.sessions[it.id]) fresh = it.id; return update(date, x => { x.sessions[it.id] = !r.sessions[it.id]; }, { msg: it.label + (r.sessions[it.id] ? " unmarked" : " done") }); }
     if (r.tasks[it.id]) { editing = editing === date + it.id ? null : date + it.id; return render(); }
+    fresh = it.id;
     let target = date, time = date === todayStr() ? hhmm(new Date()) : it.t;
     // Lights out tapped just after midnight belongs to the night before
     if (it.id === "sleep" && date === todayStr() && nowMin() < 4 * 60) target = ymd(addDays(new Date(), -1));
@@ -212,7 +240,7 @@
     for (let i = 0; i < 7; i++) {
       const dt = ymd(addDays(ws, i)), c = doneCount(dt);
       const lvl = c === 0 ? 0 : c >= NH ? 4 : c >= R.goodDay ? 3 : c >= 6 ? 2 : 1;
-      box.append(el("button", { "aria-pressed": String(dt === selDate), class: dt === todayStr() ? "today" : null, "aria-label": FULL[DAYS[i]] + ", " + c + " of " + NH + " habits", onclick: () => { selDate = dt; editing = null; render(); } },
+      box.append(el("button", { "aria-pressed": String(dt === selDate), class: dt === todayStr() ? "today" : null, "aria-label": FULL[DAYS[i]] + ", " + c + " of " + NH + " habits", onclick: () => { selDate = dt; editing = null; enter = true; render(); } },
         el("small", {}, DAYS[i]), el("b", { class: "num" }, String(addDays(ws, i).getDate())), el("span", { class: "dot", style: lvl ? `background:var(--heat${lvl})` : null })));
     }
   }
@@ -262,7 +290,7 @@
       const pending = tl.slice(0, ci + 1).filter(it => it.kind !== "info" && !isDoneItem(r, it));
       const focus = pending.length ? pending[pending.length - 1] : cur;
       const nxt = tl[ci + 1] || null;
-      const box = el("div", { class: "now" });
+      const box = el("div", { class: "now" + (fresh ? " swap" : "") });
       if (!focus) box.append(el("div", {}, el("div", { class: "eyebrow" }, "Before your day starts"), el("div", { class: "what" }, "Rest up"), el("div", { class: "sub" }, "Day starts at " + fmt(tl[0].t))));
       else {
         const late = focus !== cur;
@@ -277,27 +305,34 @@
       p.append(box);
     }
 
-    // stats
-    const dc = doneCount(date), prot = protein(date);
-    const ring = svg(`<svg class="ring${dc === NH ? " done" : ""}" viewBox="0 0 60 60" aria-hidden="true"><circle class="track" cx="30" cy="30" r="24"/><circle class="val" cx="30" cy="30" r="24" transform="rotate(-90 30 30)" stroke-dasharray="150.8" stroke-dashoffset="${150.8 * (1 - dc / NH)}"/></svg>`);
-    const nj = H.nojunk;
+    // score for the day, with the streak it feeds (the flame lights up once today counts)
+    const dc = doneCount(date), prot = protein(date), nj = H.nojunk, st = streaks(), good = dc >= R.goodDay;
+    const ring = svg(`<svg class="ring${dc === NH ? " done" : ""}" viewBox="0 0 60 60" aria-hidden="true"><circle class="track" cx="30" cy="30" r="24"/><circle class="val" cx="30" cy="30" r="24" transform="rotate(-90 30 30)" stroke-dasharray="150.8"/><text class="rn" x="30" y="36" text-anchor="middle">${dc}</text></svg>`);
+    const val = ring.querySelector(".val");
+    fill("ring", dc / NH, v => { val.style.strokeDashoffset = 150.8 * (1 - v) + "px"; });
+    const flame = svg('<svg class="flame" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.6 3.6 5 6 5 11a5 5 0 0 1-10 0c0-2.2 1-3.6 2.2-4.8.2 1.8 1 2.8 2 3C11.2 7.2 10.8 4.6 12 2z"/></svg>');
+    p.append(el("div", { class: "hero" + (dc === NH ? " perfect" : good ? " good" : "") }, ring,
+      el("div", { class: "heroTxt" }, el("div", { class: "big" }, dc === NH ? "Perfect day" : good ? "Good day" : dc ? "Keep going" : "Let's start"),
+        el("div", { class: "muted small" }, dc + " of " + NH + " habits · " + (dc === NH ? "all done" : good ? (NH - dc) + " to perfect" : (R.goodDay - dc) + " to a good day"))),
+      el("div", { class: "streak" + (good ? " lit" : ""), role: "img", "aria-label": st.cur + " day streak, best " + st.best }, flame, el("b", { class: "num" }, String(st.cur)), el("small", {}, "streak"))));
+
+    const pbar = el("i"), wbar = el("i");
+    fill("protein", Math.min(1, prot / R.proteinTarget), v => { pbar.style.width = v * 100 + "%"; });
+    fill("water", Math.min(1, r.water / R.waterGlasses), v => { wbar.style.width = v * 100 + "%"; });
     p.append(el("div", { class: "stats" },
-      el("div", { class: "stat habitstat" }, el("div", { class: "eyebrow" }, "Habits"),
-        el("div", { class: "ringwrap" }, ring, el("div", {}, el("div", { class: "big num" }, String(dc), el("small", {}, " / " + NH)),
-          el("div", { class: "muted small" }, dc === NH ? "All done" : dc >= R.goodDay ? "Good day" : (R.goodDay - dc) + " more for a good day")))),
       el("div", { class: "stat" }, el("div", { class: "eyebrow" }, "Protein"),
         el("div", { class: "big num" }, String(prot), el("small", {}, " / " + R.proteinTarget + " g")),
-        el("div", { class: "bar food" }, el("i", { style: `width:${Math.min(100, prot / R.proteinTarget * 100)}%` })),
+        el("div", { class: "bar food" }, pbar),
         el("div", { class: "muted small" }, "Tap Eat on meals")),
       el("div", { class: "stat" }, el("div", { class: "eyebrow" }, "Water"),
         el("div", { class: "big num" }, String(r.water * R.glassMl / 1000), el("small", {}, " / " + (R.waterGlasses * R.glassMl / 1000) + " L")),
-        el("div", { class: "bar water" }, el("i", { style: `width:${Math.min(100, r.water / R.waterGlasses * 100)}%` })),
+        el("div", { class: "bar water" }, wbar),
         el("div", { class: "pair" },
           el("button", { "aria-label": "Remove a glass", onclick: () => update(date, x => { x.water = Math.max(0, x.water - 1); }) }, "−"),
           el("button", { class: "plus", "aria-label": "Add a " + R.glassMl + " ml glass", onclick: () => { buzz(); update(date, x => { x.water = Math.min(20, x.water + 1); }); } }, "+ " + R.glassMl + " ml"))),
       el("div", { class: "stat" }, el("div", { class: "eyebrow" }, "Junk-free"),
         el("div", { class: "big" + (r.slips ? " warn" : "") }, r.slips ? r.slips + " slip" + (r.slips > 1 ? "s" : "") : nj[0] === true ? "Yes" : "On track"),
-        el("div", { class: "muted small" }, "Ate sweets or packaged snacks? Log it honestly."),
+        el("div", { class: "muted small" }, "Sweets or packaged snacks? Log it."),
         el("div", { class: "pair" },
           el("button", { "aria-label": "Remove a slip", disabled: !r.slips || null, onclick: () => update(date, x => { x.slips = Math.max(0, x.slips - 1); }) }, "−"),
           el("button", { class: "slip", onclick: () => update(date, x => { x.slips = x.slips + 1; }, { msg: "Slip logged" }) }, "Log a slip")))
@@ -306,10 +341,18 @@
     // day plan (the main thing you interact with)
     const nm = nowMin(); let ci = -1; if (isToday) tl.forEach((it, i) => { if (mins(it.t) <= nm) ci = i; });
     const list = el("ol", { class: "tl" });
+    // done items from earlier today fold into one line, so the list is about what's left (the one you just did stays put for its pop)
+    const earlier = tl.map((it, i) => i < ci && it.kind !== "info" && it.id !== fresh && isDoneItem(r, it) ? i : -1).filter(i => i >= 0);
+    const squash = earlier.length >= 2 && !fold.done;
+    if (earlier.length >= 2 && fold.done) list.append(el("li", { class: "sumrow" }, el("button", { class: "linkish", onclick: () => { fold.done = false; render(); } }, "Hide the " + earlier.length + " done")));
     tl.forEach((it, i) => {
+      if (squash && earlier.includes(i)) {
+        if (i === earlier[0]) list.append(el("li", { class: "sumrow" }, el("button", { class: "linkish", onclick: () => { fold.done = true; render(); } }, "✓ " + earlier.length + " done earlier · Show")));
+        return;
+      }
       const done = isDoneItem(r, it);
       const cls = [it.kind === "meal" ? "food" : it.id === "am" ? "am" : it.id === "pm" ? "pm" : it.kind === "info" ? "info" : "care",
-        done ? "done" : "", isToday && i < ci && !done && it.kind !== "info" ? "missed" : "", i === ci ? "current" : ""].join(" ");
+        done ? "done" : "", done && fresh === it.id ? "fresh" : "", isToday && i < ci && !done && it.kind !== "info" ? "missed" : "", i === ci ? "current" : ""].join(" ");
       const body = el("div", { class: "body" }, el("div", { class: "k" }, it.label), it.d ? el("div", { class: "d" }, it.d) : null,
         it.kind === "session" ? el("button", { class: "linkish", onclick: () => go("workout") }, "Open workout ›") : null);
       const li = el("li", { class: cls }, el("time", {}, fmtShort(it.t)), body, actionButton(date, it, r, false));
@@ -330,12 +373,10 @@
         el("div", { class: "txt" }, el("div", { class: "lbl" }, label), el("div", { class: "hint" }, info)),
         el("span", { class: "tag" }, cat)));
     });
-    const habitsCard = el("div", { class: "card" }, el("div", { class: "cardhead" }, el("h2", {}, "Habits"), el("span", { class: "muted small" }, "Fill in automatically from your day plan")), hl);
+    p.append(planCard, foldCard("habits", "Habits", dc + " of " + NH + " · fills in by itself", hl, false));
 
-    p.append(el("div", { class: "cols" }, planCard, habitsCard));
-
-    // check-in
-    const ck = el("div", { class: "card" }, el("div", { class: "cardhead" }, el("h2", {}, "How do you feel?"), el("span", { class: "muted small" }, "Shows whether the fixes work")));
+    // check-in (opens by itself in the evening if you haven't filled it in)
+    const ck = el("div", {});
     for (const [k, lab] of [["energy", "Energy"], ["sleep", "Sleep"], ["skin", "Skin"], ["gut", "Digestion"]]) {
       const row = el("div", { class: "scale", role: "group", "aria-label": lab }, el("span", {}, lab));
       for (let v = 1; v <= 5; v++) {
@@ -349,7 +390,17 @@
     ta.value = r.note || "";
     ta.addEventListener("input", () => update(date, x => { x.note = ta.value; }, { silent: true }));
     ck.append(ta);
-    p.append(ck);
+    const logged = Object.keys(r.checkin).length;
+    p.append(foldCard("checkin", "How do you feel?", logged ? logged + " of 4 logged" : "optional", ck, isToday && nowMin() >= 19 * 60 && !logged));
+  }
+  // a card that folds away; remembers open or closed across redraws
+  function foldCard(key, title, hint, body, openByDefault) {
+    const d = el("details", { class: "card fold" }, el("summary", {}, el("h2", {}, title), el("span", { class: "muted small" }, hint)), body);
+    d.open = key in fold ? fold[key] : openByDefault;
+    // the click handler records it at once (the toggle event can lag a redraw), toggle covers every other way of opening it
+    d.firstChild.addEventListener("click", () => { fold[key] = !d.open; });
+    d.addEventListener("toggle", () => { fold[key] = d.open; });
+    return d;
   }
 
   /* ---------- WORKOUT ---------- */
@@ -560,7 +611,7 @@
         el("label", { class: "go ghost filebtn", for: "importFile" }, "Import .json"), fileIn),
       el("p", { class: "muted small", style: "margin:10px 0 0" }, Object.keys(records).length + (Object.keys(records).length === 1 ? " day" : " days") + " logged · " + (lb ? "last backup " + new Date(lb).toLocaleDateString(undefined, { day: "numeric", month: "short" }) : "never backed up"))));
 
-    p.append(el("div", { class: "cols" }, window.Auth && Auth.why !== "claude" ? lockCard() : null, displayCard()));
+    p.append(foldCard("settings", "Settings", "app lock · theme · screen", el("div", { class: "cols" }, window.Auth && Auth.why !== "claude" ? lockCard() : null, displayCard()), false));
 
     p.append(el("div", { class: "card" }, el("div", { class: "cardhead" }, el("h2", {}, "Daily targets"), el("span", { class: "muted small" }, PLAN.profile)),
       el("div", { class: "targets" }, ...PLAN.targets.map(([n, v, s]) => el("div", {}, el("small", {}, n), el("b", {}, v), el("small", {}, s))))));
@@ -579,12 +630,12 @@
   }
 
   /* ---------- routing & render ---------- */
-  function go(t) { tab = t; try { history.replaceState(null, "", "#" + t); } catch (e) {} render(); window.scrollTo({ top: 0 }); }
+  function go(t) { tab = t; enter = true; try { history.replaceState(null, "", "#" + t); } catch (e) {} render(); window.scrollTo({ top: 0 }); }
   VIEWS.forEach(t => $("tab-" + t).addEventListener("click", () => go(t)));
-  $("backToday").addEventListener("click", () => { selDate = todayStr(); render(); });
+  $("backToday").addEventListener("click", () => { selDate = todayStr(); enter = true; render(); });
   $("modeWfh").addEventListener("click", () => update(selDate, x => { x.mode = "wfh"; }));
   $("modeOffice").addEventListener("click", () => update(selDate, x => { x.mode = "office"; }));
-  const step = n => { selDate = ymd(addDays(parse(selDate), n)); editing = null; render(); };
+  const step = n => { selDate = ymd(addDays(parse(selDate), n)); editing = null; enter = true; render(); };
   $("prevDay").addEventListener("click", () => step(-1));
   $("nextDay").addEventListener("click", () => step(1));
   $("lockNow").addEventListener("click", () => window.Auth && Auth.lock());
@@ -626,6 +677,8 @@
     renderHeader();
     VIEWS.forEach(t => { $("p-" + t).hidden = t !== tab; $("tab-" + t).setAttribute("aria-selected", String(t === tab)); });
     ({ today: renderToday, workout: renderWorkout, progress: renderProgress, guide: renderGuide })[tab]();
+    fresh = null;
+    if (enter) { enter = false; const panel = $("p-" + tab); panel.classList.remove("enter"); void panel.offsetWidth; panel.classList.add("enter"); setTimeout(() => panel.classList.remove("enter"), 800); }
     restoreFocus(fk); syncWake();
   }
   document.addEventListener("focusout", () => setTimeout(() => { if (pendingRender) render(); }, 0));

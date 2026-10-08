@@ -344,3 +344,59 @@ button:not(:disabled):active{transform:scale(.97)}
 .lockdanger{border:0;background:#B8431F;color:#fff;border-radius:999px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;justify-self:start}
 html.locked{overflow:hidden}
 .banner .go{white-space:nowrap;flex:none}
+
+/* v6: score hero + streak, fills, pop, confetti, folding cards, panel entrance */
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:0 10px 24px -18px rgba(30,42,51,.45)}
+.hero .ring{width:80px;height:80px;overflow:visible}
+.ring .val{transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}
+.ring .rn{font:700 22px var(--display);fill:var(--ink);stroke:none}
+.hero .big{font-family:var(--display);font-size:32px;line-height:1;font-weight:700}
+.hero .big small{font-size:15px;color:var(--muted);font-weight:600}
+.hero.perfect{background:linear-gradient(120deg,var(--surface) 30%,var(--accent-soft))}
+.hero.perfect .ring .val{filter:drop-shadow(0 0 5px var(--accent))}
+.streak{display:grid;justify-items:center;min-width:60px;padding:8px 10px 7px;border-radius:14px;background:var(--chip);color:var(--muted);line-height:1.1}
+.streak .flame{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.streak b{font:700 22px var(--display);color:var(--ink)}
+.streak small{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em}
+.streak.lit{background:var(--accent-soft);color:var(--accent)}
+.streak.lit .flame{fill:var(--accent);animation:flick 1.4s ease-in-out 3}
+@keyframes flick{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.15) rotate(-4deg)}}
+@media (min-width:621px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.bar i{transition:width .8s cubic-bezier(.2,.8,.2,1)}
+
+/* a task you just did: row flashes green, its button pops, the Now card slides in */
+@keyframes flash{0%{background:color-mix(in srgb,var(--ok) 30%,transparent)}100%{background:transparent}}
+@keyframes tick{0%{transform:scale(.6)}55%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes nowIn{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tl li.fresh{animation:flash 1.2s ease-out}
+.tl li.fresh .act[aria-pressed="true"]{animation:tick .4s ease-out}
+.now.swap{animation:nowIn .4s ease-out}
+.now{background:linear-gradient(135deg,var(--now-bg) 55%,color-mix(in srgb,var(--now-bg) 72%,var(--accent)));box-shadow:0 14px 28px -18px rgba(0,0,0,.6)}
+.confetti{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;border-radius:2px;will-change:transform,opacity}
+
+/* cards that fold away */
+details.fold{border-top:1px solid var(--line);padding:0}
+details.fold>summary{display:flex;align-items:center;gap:10px;padding:14px 16px;list-style:none;cursor:pointer;min-height:52px}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary>span{margin-left:auto;text-align:right}
+details.fold>summary::after{content:"";width:8px;height:8px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);transition:transform .2s;flex:none;margin-left:4px}
+details.fold[open]>summary::after{transform:rotate(-135deg) translateY(-2px)}
+details.fold>:not(summary){margin:0 16px 16px}
+.hlist li{margin:0}
+.fold .card{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:14px 0 4px;margin-top:4px}
+.fold .cols{gap:0 24px}
+
+/* panel slides in when you change tab or day */
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.enter>*{animation:rise .36s ease-out both}
+.enter>*:nth-child(2){animation-delay:.05s}.enter>*:nth-child(3){animation-delay:.1s}.enter>*:nth-child(4){animation-delay:.15s}.enter>*:nth-child(n+5){animation-delay:.2s}
+
+/* bottom tab bar: a bar over the active tab */
+nav.tabs button{position:relative}
+nav.tabs button[aria-selected="true"]::before{content:"";position:absolute;top:0;left:32%;right:32%;height:3px;border-radius:0 0 3px 3px;background:var(--accent)}
+@media (min-width:900px){nav.tabs button[aria-selected="true"]::before{display:none}}
+.tl li.sumrow{display:block;padding:2px 6px}
+.tl li.sumrow .linkish{font-size:13.5px;padding:10px 4px;min-height:40px}
+details.fold>summary h2{flex:none;white-space:nowrap}
+details.fold>summary>span{min-width:0}

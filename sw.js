@@ -1,5 +1,5 @@
 /* Offline cache for the Daily Routine Tracker. Bump VERSION after you change any file. */
-const VERSION = "routine-v5";
+const VERSION = "routine-v6";
 const FILES = ["./", "index.html", "css/app.css", "js/store.js", "js/auth.js", "js/app.js",
   "data/plan.json", "data/workouts.json", "data/figures.json", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png"];
